@@ -1,4 +1,4 @@
-### Hi there 👋🏻
+### ABOUT ME 👋🏻
 
 - 🔭 I’m currently learning C++ and python
 - 🌱 I’m currently learning computer science
