@@ -6,7 +6,7 @@ CENTRO UNIVERSITARIO DE LOS ALTOS / UNIVERSIDAD DE GUADALAJARA
 INGENIERIA EN COMPUTACION / 2DO SEMESTRE
 PROFESOR: Carlos Javier Cruz Franco
 DESCRIPCION: Este programa le pide un numero al usuario y si el numero es mayor a 0
-y menor a 500 sube de 5 en 5 100 veces; si el numero es mayor a 500 y menos a 1000 se
+y menor a 500 sube de 5 en 5 100 veces; si numero es mayor a 500 y menos a 1000 se
 sube el numero de 10 en 10 50 veces; si el numero es mayor a 1000 se imprime no se puede 
 calcular el valor. Este programa tiene una opcion donde se pueda salir del programa 
 hace un conteo de las veces que se realizo la operacion */
