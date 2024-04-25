@@ -1,7 +1,7 @@
 /* <3 <3 PRESENTACION <3 <3
 NOMBRE: Tania Citlaly de Anda Lara
 FECHA: 23 de Abril del 2024
-PROGRAMA: Act10(ordybus).cpp
+PROGRAMA: Act11Recursividad.cpp
 CENTRO UNIVERSITARIO DE LOS ALTOS / UNIVERSIDAD DE GUADALAJARA
 INGENIERIA EN COMPUTACION / 2DO SEMESTRE
 PROFESOR: Carlos Javier Cruz Franco
@@ -37,7 +37,7 @@ void print(int* new_lista, int position) { //toma como argumento el vector y la 
 
 void adding_num(int* new_lista, int position) {
     if (position == 5) { //caso base, cuando llegue a 5 (que es el total de elementos) se detiene
-        cout << "Your list is full";
+        cout << "Your list is full: ";
         return; //para
     } else {
         cout << "Type the value you want to add to your list. Remember you have 5 spaces" << endl;
