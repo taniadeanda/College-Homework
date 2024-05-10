@@ -76,14 +76,14 @@ void guardarEnArchivo(const vector<Alumno>& alumnos){
         } else {
         cout << "No se pudo abrir el archivo para guardar los datos.\n";
     }
-} //guarda el archivo en la misma carpeta que se ejecuta el programa output
+} //guarda el archivo en la misma carpeta que se ejecuta el programa, output
 
 int main (){//inicio del programa
-int opcion;//variable 
-string nombre;
-vector<Alumno> alumnos;//declaramos el vector de alumno
-Alumno nuevo_alumno;
-    //VALIDACION DE DATOS?FUNCIONES?
+    int opcion;//variable 
+    string nombre;
+    vector<Alumno> alumnos;//declaramos el vector de alumno
+    Alumno nuevo_alumno;
+    //FUNCIONES?
 
     cout<<"Hola, hola, bienvenid@ a este programa para hacer una capturación de datos, Comencemos!!"<<endl;
     cout<<"Primero debes elegir la acción por hacer;"<<endl;//introducción al programa 
@@ -148,19 +148,19 @@ Alumno nuevo_alumno;
                 }
                 promediofinal=suma/5; // Calcular el promedio del alumno
                 if (promediofinal<=59){//condición 1 de 59 para abajo
-                    cout<<"REPROBADO"<<endl;//imprime el mensaje de calificación que se solicitó
+                    cout<<"Reprobado"<<endl;//imprime el mensaje de calificación que se solicitó
                     cout<<"El promedio total del alumno en sus 5 materias fue de: "<<promediofinal<<endl; //imprime el promedio que obtuvo el alumno
                 }
                 if(promediofinal>=60 && promediofinal<=79){//condición 2 de entre 60 y 79 
-                    cout<<"REGULAR"<<endl;//imprime el mensaje de calificación que se solicitó
+                    cout<<"Regular"<<endl;//imprime el mensaje de calificación que se solicitó
                     cout<<"El promedio total del alumno en sus 5 materias fue de: "<<promediofinal<<endl; //imprime el promedio que obtuvo el alumno
                 }
                 if(promediofinal>=80 && promediofinal<=89){//condición 3 entre 80 y 89 
-                    cout<<"MUY BIEN"<<endl;//imprime el mensaje de calificación que se solicitó
+                    cout<<"Bueno"<<endl;//imprime el mensaje de calificación que se solicitó
                     cout<<"El promedio total del alumno en sus 5 materias fue de: "<<promediofinal<<endl; //imprime el promedio que obtuvo el alumno
                 }
                 else if (promediofinal>=90 && promediofinal<=100){//condición 4 entre 90 y 100
-                    cout<<"EXCELENTE"<<endl;//imprime el mensaje de calificación que se solicitó
+                    cout<<"Excelente"<<endl;//imprime el mensaje de calificación que se solicitó
                     cout<<"El promedio total del alumno en sus 5 materias fue de: "<<promediofinal<<endl; //imprime el promedio que obtuvo el alumno
                 }
                 break;//fin del caso 3 
