@@ -13,6 +13,7 @@ puede editar el dato que quiera.*/
 #include <iostream>
 #include <fstream> // Para trabajar con archivos
 #include <string>//librerías
+#include <cctype> //para funcion isdigit() validacion
 #include <limits> //para funcion de validacion y limpieza de buffer
 using namespace std;
 
@@ -33,6 +34,26 @@ void validacion() { //funcion para validacion de datos y limpieza de buffer
         cin.ignore(numeric_limits<streamsize>::max(),'\n'); //ignora los carateres no deseados y limpia el buffer
     }
 }
+
+void validar_string(string& frase) { //funcion para validar string por si el usuario ingresa numeros
+    for (char caracter:frase) { //recorre caracter por caracter del string
+        if (isdigit(caracter)) { //funcion is digit para verificar si el caracter es un digito
+            cin.clear(); //restablece el estado del flujo de entrada para que pueda recibir mas datos
+            cout << "Dato incorrecto. Vuelve a escribir el dato sin numeros" << endl;
+            getline(cin, frase);
+        }
+    }
+}
+
+void validar_calificacion(int& calificacion){
+    if (calificacion < 10 && calificacion > 0) {
+        cin >> calificacion; //permite agregar la calificacion
+    }
+    else {
+        cout << "Calificacion incorrecta. Vuelve a ingresar la calificacion en un rango de 0 - 10" << endl;
+    }
+}
+
 void guardarEnArchivo(const vector<Alumno>& alumnos){
     ofstream archivo("datos_alumnos.txt"); //se declara archivo con su nombre
     if (archivo.is_open()) { //se abre el archivo para poder escribir los datos
@@ -51,7 +72,8 @@ void guardarEnArchivo(const vector<Alumno>& alumnos){
 }
 
 int main (){//inicio del programa
-int opcion;//variable 
+int opcion, calificacion;//variable 
+string nombre;
 vector<Alumno> alumnos;//declaramos el vector de alumno
 Alumno nuevo_alumno;
     //VALIDACION DE DATOS?FUNCIONES?
@@ -72,17 +94,21 @@ Alumno nuevo_alumno;
 		    case 1://caso 1 Ingresar los datos 
                 cout<<"Empieza por ingresar el nombre del alumno: "<<endl;//pedimos el nombre del alumno
                 cin.ignore();
-                getline(cin, nuevo_alumno.nombre);
-                //función getline para que permita seguir ingresando en esa misma línea aunque se le de espacio. Guarda el nombre del alumno 
+                getline(cin, nuevo_alumno.nombre); //función getline para que permita seguir ingresando en esa misma línea aunque se le de espacio. Guarda el nombre del alumno
+                validar_string(nuevo_alumno.nombre); //funcion para validar que no haya ingresado solo numeros
+
                 for (int i=0; i<5; i++) {//ciclo for para llenar las 5 materias 
                     Materia nueva_materia;//vector materia 
-                    cout<<"Materia de registro"<<i + 1<<":"<<endl;//pedimos materias y va pidiendo hasta  el 5
+                    cout<<"Materia de registro "<<i + 1<<":"<<endl;//pedimos materias y va pidiendo hasta  el 5
                     cin.ignore();
-                    getline(cin, nueva_materia.nombre);//función getline, guarda el nombre de materias 
+                    getline(cin, nueva_materia.nombre);//función getline, guarda el nombre de materias
+                    validar_string(nueva_materia.nombre); //funcion para validar la materia
                     cout<<"Nombre del maestro a cargo de la materia: "<<nueva_materia.nombre<<endl; //pide el nombre del maestro, e imprime el nomnbre de la materia a lado 
                     getline(cin, nueva_materia.maestro);//función getline, guarda el nombre del maestro 
+                    validar_string(nueva_materia.maestro);
                     cout<<"Calificación de la materia: "<<nueva_materia.nombre<<endl; //pide la calificación de cada materia que se imprime el nombre de esta a lado
                     cin>>nueva_materia.calificacion;//función getline, guarda el número que se le da de calificación 
+                    //VALIDAR
                     nuevo_alumno.materias.push_back(nueva_materia);
                 }
                 alumnos.push_back(nuevo_alumno);
@@ -169,6 +195,10 @@ Alumno nuevo_alumno;
             break;
 
             case 5: //guardar datos en un archivo
+                /* if (alumnos.empty()) {
+                    cout << "Ingresa datos en tu ficha para poder guardar el archivo"<<endl;
+                } else {}
+                */
                 guardarEnArchivo(alumnos);  //funcion para guardar archivo
                 cout<<"Hasta luego!!"<<endl;
                 break;
