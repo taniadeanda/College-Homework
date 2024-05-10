@@ -11,8 +11,9 @@ puede editar el dato que quiera.*/
 
 #include <vector>
 #include <iostream>
-#include <string>//librerías 
-
+#include <fstream> // Para trabajar con archivos
+#include <string>//librerías
+#include <limits> //para funcion de validacion y limpieza de buffer
 using namespace std;
 
 struct Materia{//declaramos la estructura de materias
@@ -25,6 +26,29 @@ struct Alumno{//estructura de alumno
     string nombre;//variable 
     vector<Materia> materias;//vector 
 };
+
+void validacion() { //funcion para validacion de datos y limpieza de buffer
+    if(cin.fail()) { //verifica la entrada de datos, si falla devuelve true y se ejecuta lo siguiente
+        cin.clear(); //restablece el estado del flujo de entrada para que pueda recibir mas datos
+        cin.ignore(numeric_limits<streamsize>::max(),'\n'); //ignora los carateres no deseados y limpia el buffer
+    }
+}
+void guardarEnArchivo(const vector<Alumno>& alumnos){
+    ofstream archivo("datos_alumnos.txt"); //se declara archivo con su nombre
+    if (archivo.is_open()) { //se abre el archivo para poder escribir los datos
+        for (const Alumno& alumno : alumnos) { //se usa un bucle para recorrer los elementos del vector alumno y transcribirlos
+            archivo << "Nombre del alumno: " << alumno.nombre << endl; //escribe estos datos en el archivo
+            for (const Materia& materia : alumno.materias) {
+                archivo << "Materia: " << materia.nombre << ", Maestro: " << materia.maestro << ", Calificación: " << materia.calificacion << endl;
+            }
+            archivo << endl; // Separador entre alumnos
+        }
+        archivo.close(); //se cierra el archivo y se guardan los datos
+        cout << "Datos guardados en el archivo correctamente.\n";
+        } else {
+        cout << "No se pudo abrir el archivo para guardar los datos.\n";
+    }
+}
 
 int main (){//inicio del programa
 int opcion;//variable 
@@ -41,7 +65,8 @@ Alumno nuevo_alumno;
         cout<<"4-Editar datos de un registro"<<endl;
         cout<<"5-Salir y guardar archivo"<<endl;//opciones del menú
 
-        cin>>opcion;//lee opción del menú para el switch 
+        cin>>opcion;//lee opción del menú para el switch
+        validacion();
 
         switch (opcion) {//inicio del switch
 		    case 1://caso 1 Ingresar los datos 
@@ -49,82 +74,70 @@ Alumno nuevo_alumno;
                 cin.ignore();
                 getline(cin, nuevo_alumno.nombre);
                 //función getline para que permita seguir ingresando en esa misma línea aunque se le de espacio. Guarda el nombre del alumno 
-                for (int i=0; i<5; i++)//ciclo for para llenar las 5 materias 
-                {
+                for (int i=0; i<5; i++) {//ciclo for para llenar las 5 materias 
                     Materia nueva_materia;//vector materia 
                     cout<<"Materia de registro"<<i + 1<<":"<<endl;//pedimos materias y va pidiendo hasta  el 5
-                cin.ignore();
-                getline(cin, nueva_materia.nombre);//función getline, guarda el nombre de materias 
-                cout<<"Nombre del maestro a cargo de la materia: "<<nueva_materia.nombre<<endl;
-                //pide el nombre del maestro, e imprime el nomnbre de la materia a lado 
-                getline(cin, nueva_materia.maestro);//función getline, guarda el nombre del maestro 
-                cout<<"Calificación de la materia: "<<nueva_materia.nombre<<endl;
-                //pide la calificación de cada materia que se imprime el nombre de esta a lado
-                cin>>nueva_materia.calificacion;//función getline, guarda el número que se le da de calificación 
-                nuevo_alumno.materias.push_back(nueva_materia);
+                    cin.ignore();
+                    getline(cin, nueva_materia.nombre);//función getline, guarda el nombre de materias 
+                    cout<<"Nombre del maestro a cargo de la materia: "<<nueva_materia.nombre<<endl; //pide el nombre del maestro, e imprime el nomnbre de la materia a lado 
+                    getline(cin, nueva_materia.maestro);//función getline, guarda el nombre del maestro 
+                    cout<<"Calificación de la materia: "<<nueva_materia.nombre<<endl; //pide la calificación de cada materia que se imprime el nombre de esta a lado
+                    cin>>nueva_materia.calificacion;//función getline, guarda el número que se le da de calificación 
+                    nuevo_alumno.materias.push_back(nueva_materia);
                 }
                 alumnos.push_back(nuevo_alumno);
-             break;//fin caso 1 
-            
+                break;//fin caso 1 
 
             case 2: //caso 2 imprimir 
-           // int nombre;
-            //cout<<"Ingresa el nombre del alumno para buscar su ficha"<<endl;
-               // cin>>nombre;
-            for(const Alumno& alumno : alumnos){
+                //int nombre;
+                //cout<<"Ingresa el nombre del alumno para imprimir su ficha"<<endl;
+                //cin>>nombre;
+                for(const Alumno& alumno : alumnos){
 
                 //preguntar al usuario que estructura quiere imprimir? BUSCAR POR NOMBRE DE ALUMNO
-                //??? COMO BUSCA LA FICHA
 
-                cout<<"Los datos de este registro son: "<<endl;//imprime los datos anteriormente ingresados 
-                cout<<"Nombre del alumno: "<<alumno.nombre<<endl;//imprime nombre del alumno
-                  for (const Materia& materia : alumno.materias) {//llamamos el vector para que lea los elementos
-                cout<<"Materia: "<<materia.nombre<<endl;//imprime nombre de materia 
-                cout<<"Maestro: "<<materia.maestro<<endl;//imprime nombre del profesor 
-                cout<<"Calificación: "<<materia.calificacion<<endl;//imprime el número de calificación
-
-            }
-            }
-            break;//fin caso 2 
+                    cout<<"Los datos de este registro son: "<<endl;//imprime los datos anteriormente ingresados 
+                    cout<<"Nombre del alumno: "<<alumno.nombre<<endl;//imprime nombre del alumno
+                    for (const Materia& materia : alumno.materias) {//llamamos el vector para que lea los elementos
+                        cout<<"Materia: "<<materia.nombre<<endl;//imprime nombre de materia 
+                        cout<<"Maestro: "<<materia.maestro<<endl;//imprime nombre del profesor 
+                        cout<<"Calificación: "<<materia.calificacion<<endl;//imprime el número de calificación
+                    }
+                }
+                break;//fin caso 2 
             
-            case 3://case 3 sacar promedio
-            float suma=0;//variable del promedio
-            float promediofinal;
-        for (const Alumno& alumno : alumnos) {
-        for (const Materia& materia : alumno.materias) {
-            suma += materia.calificacion; // Sumar las calificaciones de todas las materias del alumno
-        }
-        }
-        promediofinal=suma/5; // Calcular el promedio del alumno     
-    
+            case 3://sacar promedio
+            { //llaves para evitar problema jump in case y declarar variables dentro de case
+                float suma=0;//variable del promedio
+                float promediofinal;
+                for (const Alumno& alumno : alumnos) {
+                    for (const Materia& materia : alumno.materias) {
+                        suma += materia.calificacion; // Sumar las calificaciones de todas las materias del alumno
+                    }
+                }
+                promediofinal=suma/5; // Calcular el promedio del alumno
+                if (promediofinal<=59){//condición 1 de 59 para abajo
+                    cout<<"REPROBADO"<<endl;//imprime el mensaje de calificación que se solicitó
+                    cout<<"El promedio total del alumno en sus 5 materias fue de: "<<promediofinal<<endl; //imprime el promedio que obtuvo el alumno
+                }
+                if(promediofinal>=60 && promediofinal<=79){//condición 2 de entre 60 y 79 
+                    cout<<"REGULAR"<<endl;//imprime el mensaje de calificación que se solicitó
+                    cout<<"El promedio total del alumno en sus 5 materias fue de: "<<promediofinal<<endl; //imprime el promedio que obtuvo el alumno
+                }
+                if(promediofinal>=80 && promediofinal<=89){//condición 3 entre 80 y 89 
+                    cout<<"MUY BIEN"<<endl;//imprime el mensaje de calificación que se solicitó
+                    cout<<"El promedio total del alumno en sus 5 materias fue de: "<<promediofinal<<endl; //imprime el promedio que obtuvo el alumno
+                }
+                else if (promediofinal>=90 && promediofinal<=100){//condición 4 entre 90 y 100
+                    cout<<"EXCELENTE"<<endl;//imprime el mensaje de calificación que se solicitó
+                    cout<<"El promedio total del alumno en sus 5 materias fue de: "<<promediofinal<<endl; //imprime el promedio que obtuvo el alumno
+                }
+                break;//fin del caso 3 
+            } //cierra llave case
 
-            if (promediofinal<=59){//condición 1 de 59 para abajo
-                cout<<"REPROBADO"<<endl;//imprime el mensaje de calificación que se solicitó
-                cout<<"El promedio total del alumno en sus 5 materias fue de: "<<promediofinal<<endl;
-                //imprime el promedio que obtuvo el alumno
-            }
-            if(promediofinal>=60 && promediofinal<=79){//condición 2 de entre 60 y 79 
-                cout<<"REGULAR"<<endl;//imprime el mensaje de calificación que se solicitó
-                cout<<"El promedio total del alumno en sus 5 materias fue de: "<<promediofinal<<endl;
-                 //imprime el promedio que obtuvo el alumno
-            }
-            if(promediofinal>=80 && promediofinal<=89){//condición 3 entre 80 y 89 
-                cout<<"MUY BIEN"<<endl;//imprime el mensaje de calificación que se solicitó
-                cout<<"El promedio total del alumno en sus 5 materias fue de: "<<promediofinal<<endl;
-                 //imprime el promedio que obtuvo el alumno
-            }
-            else if (promediofinal>=90 && promediofinal<=100){//condición 4 entre 90 y 100
-                cout<<"EXCELENTE"<<endl;//imprime el mensaje de calificación que se solicitó
-                cout<<"El promedio total del alumno en sus 5 materias fue de: "<<promediofinal<<endl;
-                 //imprime el promedio que obtuvo el alumno
-            }
-            break;//fin del caso 3 
-        
-/*
             case 4://Edición de datos
-            int nombre;
-            int option;
-                cout<<"Ingresa el nombre del alumno que desees editar su ficha";
+                cout<<"Ingresa el nombre del alumno que desees editar su ficha"<<endl;
+                /*
                 cin>>nombre;
                 //??? COMO BUSCA LA FICHA
                 do { //funciones??, COMO SABE DATOS DE QUE ALUMNO?
@@ -152,15 +165,16 @@ Alumno nuevo_alumno;
                         break;
                         }
                     }
-                }while(option!=3);
+                }while(option!=3);*/
             break;
 
             case 5: //guardar datos en un archivo
+                guardarEnArchivo(alumnos);  //funcion para guardar archivo
                 cout<<"Hasta luego!!"<<endl;
-            break;*/
+                break;
 
-            //default: 
-              //  cout<<"Opción incorrecta de menú. Vuelve a ingresar una opción válida";
+            default: 
+                cout<<"Opción incorrecta de menú. Vuelve a ingresar una opción válida"<<endl;
         }//fin switch 
    }while(opcion!=5);
 }//fin programa 
