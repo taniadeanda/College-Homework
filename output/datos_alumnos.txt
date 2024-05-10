@@ -1,0 +1,7 @@
+Nombre del alumno: dsf
+Materia: adf, Maestro: asd, Calificación: 0
+Materia: ssddff, Maestro: ADF, Calificación: 0
+Materia: SDF, Maestro: ASDFA, Calificación: 0
+Materia: SDDFA, Maestro: ADFA, Calificación: 0
+Materia: SDF, Maestro: ADFA, Calificación: 0
+

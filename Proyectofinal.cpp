@@ -45,12 +45,17 @@ void validar_string(string& frase) { //funcion para validar string por si el usu
     }
 }
 
-void validar_calificacion(int& calificacion){
-    if (calificacion < 10 && calificacion > 0) {
-        cin >> calificacion; //permite agregar la calificacion
-    }
-    else {
-        cout << "Calificacion incorrecta. Vuelve a ingresar la calificacion en un rango de 0 - 10" << endl;
+//THIS IS NOT WORKING PROPERLY
+void validar_calificacion(Materia& nueva_materia){
+    while (true) {
+        if (cin.fail() or nueva_materia.calificacion < 10 and nueva_materia.calificacion > 0) {
+            cin.clear();
+            cout << "Calificacion incorrecta. Vuelve a ingresar la calificacion en un rango de 0 - 10" << endl;
+            //cin >> nueva_materia.calificacion;
+        }
+        else {
+            break;
+        }
     }
 }
 
@@ -72,7 +77,7 @@ void guardarEnArchivo(const vector<Alumno>& alumnos){
 }
 
 int main (){//inicio del programa
-int opcion, calificacion;//variable 
+int opcion;//variable 
 string nombre;
 vector<Alumno> alumnos;//declaramos el vector de alumno
 Alumno nuevo_alumno;
@@ -106,9 +111,9 @@ Alumno nuevo_alumno;
                     cout<<"Nombre del maestro a cargo de la materia: "<<nueva_materia.nombre<<endl; //pide el nombre del maestro, e imprime el nomnbre de la materia a lado 
                     getline(cin, nueva_materia.maestro);//función getline, guarda el nombre del maestro 
                     validar_string(nueva_materia.maestro);
-                    cout<<"Calificación de la materia: "<<nueva_materia.nombre<<endl; //pide la calificación de cada materia que se imprime el nombre de esta a lado
-                    cin>>nueva_materia.calificacion;//función getline, guarda el número que se le da de calificación 
-                    //VALIDAR
+                    cout<<"Calificación de la materia (0 - 10): "<<nueva_materia.nombre<<endl; //pide la calificación de cada materia que se imprime el nombre de esta a lado
+                    cin >> nueva_materia.calificacion; //permite agregar la calificacion
+                    validar_calificacion(nueva_materia); //la valida
                     nuevo_alumno.materias.push_back(nueva_materia);
                 }
                 alumnos.push_back(nuevo_alumno);
