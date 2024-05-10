@@ -11,7 +11,7 @@ puede editar el dato que quiera.*/
 
 #include <vector>
 #include <iostream>
-#include <fstream> // Para trabajar con archivos
+#include <fstream> // Para trabajar con archivosd
 #include <string>//librerías
 #include <cctype> //para funcion isdigit() validacion
 #include <limits> //para funcion de validacion y limpieza de buffer
@@ -45,11 +45,13 @@ void validar_string(string& frase) { //funcion para validar string por si el usu
     }
 }
 
-//THIS IS NOT WORKING PROPERLY
-void validar_calificacion(Materia& nueva_materia){
+void agregar_calificacion(Materia& nueva_materia){
     while (true) {
-        if (cin.fail() or nueva_materia.calificacion < 10 and nueva_materia.calificacion > 0) {
+        cout << "Ingresa la calificacion (0 - 10): ";
+        cin >> nueva_materia.calificacion;
+        if (cin.fail() || nueva_materia.calificacion < 0 || nueva_materia.calificacion > 10) {
             cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "Calificacion incorrecta. Vuelve a ingresar la calificacion en un rango de 0 - 10" << endl;
             //cin >> nueva_materia.calificacion;
         }
@@ -60,7 +62,7 @@ void validar_calificacion(Materia& nueva_materia){
 }
 
 void guardarEnArchivo(const vector<Alumno>& alumnos){
-    ofstream archivo("datos_alumnos.txt"); //se declara archivo con su nombre
+    ofstream archivo("ficha_alumno.txt"); //se declara archivo con su nombre
     if (archivo.is_open()) { //se abre el archivo para poder escribir los datos
         for (const Alumno& alumno : alumnos) { //se usa un bucle para recorrer los elementos del vector alumno y transcribirlos
             archivo << "Nombre del alumno: " << alumno.nombre << endl; //escribe estos datos en el archivo
@@ -74,7 +76,7 @@ void guardarEnArchivo(const vector<Alumno>& alumnos){
         } else {
         cout << "No se pudo abrir el archivo para guardar los datos.\n";
     }
-}
+} //guarda el archivo en la misma carpeta que se ejecuta el programa output
 
 int main (){//inicio del programa
 int opcion;//variable 
@@ -111,9 +113,7 @@ Alumno nuevo_alumno;
                     cout<<"Nombre del maestro a cargo de la materia: "<<nueva_materia.nombre<<endl; //pide el nombre del maestro, e imprime el nomnbre de la materia a lado 
                     getline(cin, nueva_materia.maestro);//función getline, guarda el nombre del maestro 
                     validar_string(nueva_materia.maestro);
-                    cout<<"Calificación de la materia (0 - 10): "<<nueva_materia.nombre<<endl; //pide la calificación de cada materia que se imprime el nombre de esta a lado
-                    cin >> nueva_materia.calificacion; //permite agregar la calificacion
-                    validar_calificacion(nueva_materia); //la valida
+                    agregar_calificacion(nueva_materia); //permite agregar y validar la calificacion
                     nuevo_alumno.materias.push_back(nueva_materia);
                 }
                 alumnos.push_back(nuevo_alumno);
