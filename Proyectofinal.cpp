@@ -49,7 +49,7 @@ void agregar_calificacion(Materia& nueva_materia){
     while (true) {
         cout << "Ingresa la calificacion (0 - 10): ";
         cin >> nueva_materia.calificacion;
-        if (cin.fail() || nueva_materia.calificacion < 0 || nueva_materia.calificacion > 10) {
+        if (cin.fail() || nueva_materia.calificacion < 0 || nueva_materia.calificacion > 100) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "Calificacion incorrecta. Vuelve a ingresar la calificacion en un rango de 0 - 10" << endl;
